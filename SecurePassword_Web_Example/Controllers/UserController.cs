@@ -18,7 +18,8 @@ namespace SecurePassword_Web_Example.Controllers
     [Route("[controller]")]
     [ApiController]
     public class UserController : ControllerBase
-    {
+    {   
+        //connection string for the localdb with the user that is created with the sql script
         string con = @"Server=(localdb)\MSSQLLocalDB;Database=SecurePassword;User Id=SecurePasswordExecuter;Password=YvbQ3~XDEE#]8GxA";
 
         private static Logic logic;
@@ -33,6 +34,10 @@ namespace SecurePassword_Web_Example.Controllers
             } 
         }
 
+        /// <summary>
+        /// gives the html login page that uses the api
+        /// </summary>
+        /// <returns>the html for the login page</returns>
         [HttpGet("login")]
         public ContentResult GetLogin()
         {
@@ -43,7 +48,11 @@ namespace SecurePassword_Web_Example.Controllers
                 Content = HTMLViewHolder.GetLoginView()
             };
         }
-        
+
+        /// <summary>
+        /// gives the html create user page that uses the api
+        /// </summary>
+        /// <returns>the html for the create user page</returns>
         [HttpGet("createuser")]
         public ContentResult GetCreateUser()
         {
@@ -55,6 +64,20 @@ namespace SecurePassword_Web_Example.Controllers
             };
         }
 
+        /// <summary>
+        /// gives the html hub page that uses the api
+        /// </summary>
+        /// <returns>the html for the hub page</returns>
+        [HttpGet("hub")]
+        public ContentResult GetHub()
+        {
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = HTMLViewHolder.GetHubView()
+            };
+        }
         /// <summary>
         /// post call for creating a user
         /// </summary>
@@ -80,9 +103,26 @@ namespace SecurePassword_Web_Example.Controllers
         /// </summary>
         /// <returns>if it is created</returns>
         [HttpPost("Form/createuser")]
-        public bool FormAddUser([FromForm] User user)
+        public ContentResult FormAddUser([FromForm] User user)
         {
-            return Logic.AddUser(user);
+            if (Logic.AddUser(user))
+            {
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.OK,
+                    Content = HTMLViewHolder.GetRediret("/user/hub", "you have created a accout")
+                };
+            }
+            else
+            {
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.OK,
+                    Content = HTMLViewHolder.GetRediret("/user/login", "invalid input")
+                };
+            }
         }
 
         /// <summary>
@@ -91,9 +131,26 @@ namespace SecurePassword_Web_Example.Controllers
         /// <param name="user">the user that wants to login</param>
         /// <returns>if the user was able to login</returns>
         [HttpPost("Form/login")]
-        public bool FormLogin([FromForm] User user)
+        public ContentResult FormLogin([FromForm] User user)
         {
-            return Logic.Login(user);
+            if (Logic.Login(user))
+            {
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.OK,
+                    Content = HTMLViewHolder.GetRediret("/user/hub", "you are logged in")
+                };
+            }
+            else
+            {
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.OK,
+                    Content = HTMLViewHolder.GetRediret("/user/login", "wrong input")
+                };
+            }
         }
     }
 }
