@@ -19,8 +19,17 @@ namespace SecurePassword_Web_Example.Controllers
     {
         string con = @"Server=(localdb)\MSSQLLocalDB;Database=SecurePassword;User Id=SecurePasswordExecuter;Password=YvbQ3~XDEE#]8GxA";
 
-        private Logic logic;
-        private Logic Logic { get { if (logic == null) { logic = new Logic(new Rfc2898DeriveBytesHashing(50000, 64, "sha512"), new DataBaseManager(con)); } return logic; } }
+        private static Logic logic;
+        private Logic Logic { 
+            get 
+            { 
+                if (logic == null) 
+                { 
+                    logic = new Logic(new Rfc2898DeriveBytesHashing(50000, 64, "sha512"), new DataBaseManager(con)); 
+                } 
+                return logic; 
+            } 
+        }
 
         // POST api/<UserController>
         public bool Post([FromBody] User value)
