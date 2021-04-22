@@ -34,7 +34,7 @@ namespace SecurePassword_Web_Example.View
             return "<!DOCTYPE html>\n" +
                 "<html>\n"+
                 "<head> \n" +
-                "<meta http-equiv = \"refresh\" content = \"5; URL=" + address + "\" /> \n" +
+                //"<meta http-equiv = \"refresh\" content = \"5; URL=" + address + "\" /> \n" +
                 "</head> \n" +
                 "<body> \n" +      
                 "<h3>"+ message +"</h3>\n" +

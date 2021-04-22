@@ -20,6 +20,7 @@ namespace SecurePassword_Web_Example
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseUrls("http://*:5000;http://localhost:5001;https://hostname:5002");
                     webBuilder.UseStartup<Startup>();
                 });
     }
