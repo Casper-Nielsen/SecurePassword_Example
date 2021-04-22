@@ -1,8 +1,10 @@
 #### setup server
-1. build the program
-2. publish the program 
-3. copy the view folder to the publish folder
-4. run SecurePassword_Web_Example.exe from the publish folder
+1. run the createscript localted docs/CreateScript.sql
+2. verify that the sql connection string will work with your db localted in the SecurePassword_Web_Example/Controllers/userController.cs
+3. build the SecurePassword_Web_Example
+4. publish the SecurePassword_Web_Example to a folder 
+5. copy the view folder to the publish folder
+6. run SecurePassword_Web_Example.exe from the publish folder
 
 now you will be able to remote connect to it
 
