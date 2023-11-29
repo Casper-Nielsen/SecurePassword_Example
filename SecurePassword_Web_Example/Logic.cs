@@ -1,13 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SecurePassword_Web_Example.Dal;
-using SecurePassword_Web_Example.Hashing_Classes;
+﻿using SecurePassword_Web_Example.Hashing_Classes;
 using SecurePassword_Web_Example.Interfaces;
 using SecurePassword_Web_Example.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 
 namespace SecurePassword_Web_Example
@@ -22,7 +17,7 @@ namespace SecurePassword_Web_Example
         {
             this.hashing = hashing;
             this.dataManager = dataManager;
-            this.hashing = new HmacHashing(Encoding.UTF8.GetBytes("hello world"), "sha512");
+            this.hashing = new HmacHashing("hello world"u8.ToArray(), "sha512");
         }
 
 
@@ -33,7 +28,7 @@ namespace SecurePassword_Web_Example
         /// <returns>if the user got added</returns>
         public bool AddUser(User user)
         {
-            if (user.Password.Length > 5)
+            if (user.Password.Length > 3)
             {
                 byte[] passwordByte = Encoding.UTF8.GetBytes(user.Password);
                 byte[] salt = hashing.GenerateSalt(32);
@@ -51,7 +46,7 @@ namespace SecurePassword_Web_Example
         /// <returns>if it was able to login</returns>
         public bool Login(User user)
         {
-            if (user.Password.Length > 5)
+            if (user.Password.Length > 3)
             {
                 byte[] passwordByte = Encoding.UTF8.GetBytes(user.Password);
                 user = dataManager.GetUser(user.Username);

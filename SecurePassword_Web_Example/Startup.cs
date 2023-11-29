@@ -27,13 +27,9 @@ namespace SecurePassword_Web_Example
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
+            services.AddMvc();
             services.AddOptions();
             services.AddMemoryCache();
-            services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
-            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
-            services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
-            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
             services.AddHttpContextAccessor();
         }
 
@@ -44,8 +40,6 @@ namespace SecurePassword_Web_Example
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseIpRateLimiting();
             
             app.UseHttpsRedirection();
 

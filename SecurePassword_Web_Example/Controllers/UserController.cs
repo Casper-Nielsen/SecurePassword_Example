@@ -19,16 +19,13 @@ namespace SecurePassword_Web_Example.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {   
-        //connection string for the localdb with the user that is created with the sql script
-        string con = @"Server=(localdb)\MSSQLLocalDB;Database=SecurePassword;User Id=SecurePasswordExecuter;Password=YvbQ3~XDEE#]8GxA";
-
         private static Logic logic;
         private Logic Logic { 
             get 
             { 
                 if (logic == null) 
                 { 
-                    logic = new Logic(new Rfc2898DeriveBytesHashing(50000, 64, "sha512"), new DataBaseManager(con)); 
+                    logic = new Logic(new Rfc2898DeriveBytesHashing(50000, 64, "sha512"), new LiteDbManager()); 
                 } 
                 return logic; 
             } 
@@ -120,7 +117,7 @@ namespace SecurePassword_Web_Example.Controllers
                 {
                     ContentType = "text/html",
                     StatusCode = (int)HttpStatusCode.OK,
-                    Content = HTMLViewHolder.GetRediret("/user/login", "invalid input")
+                    Content = HTMLViewHolder.GetRediret("/user/createuser", "invalid input")
                 };
             }
         }
